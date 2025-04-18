@@ -1,11 +1,11 @@
 import { useState, ReactNode, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
+import { useAuth } from '../../contexts/AuthContext';
+import { cn } from '../../lib/utils';
 import { LogOut, Wallet, CreditCard, SendHorizontal, ArrowDownToLine, LayoutDashboard, Bell, Menu, X, History } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '../../components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
 
 interface SidebarLinkProps {
   href: string;
@@ -60,8 +60,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     return null;
   }
 
-  const user = authState.user;
-  const initials = user ? `${user.name}` : 'UR';
+  const user: any = authState.user;
+  const initials = user ? `${user?.name}` : 'UR';
   
   const navigationItems = [
     { 

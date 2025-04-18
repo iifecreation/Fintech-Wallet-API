@@ -220,7 +220,7 @@ const Transactions = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredTransactions.map((transaction) => (
+                      {filteredTransactions.map((transaction: any) => (
                         <tr key={transaction?.id} className="border-b hover:bg-muted/50">
                           <td className="py-4 px-2">
                             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">

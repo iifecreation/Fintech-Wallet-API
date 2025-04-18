@@ -1,9 +1,9 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { AuthState, User } from '@/types';
-import authService from '@/services/authService';
+import { AuthState, User } from '../types/index';
+import authService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '../components/ui/use-toast';
 
 interface AuthContextProps {
   authState: AuthState;
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const register = async (name: string,  email: string, password: string) => {
+  const register = async (name: string, email: string, password: string) => {
     try {
       setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
       

@@ -1,18 +1,18 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useWallet } from '@/contexts/WalletContext';
-import DashboardLayout from '@/components/layout/DashboardLayout';
+import { useWallet } from '../contexts/WalletContext';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, SendHorizontal, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
+import { Separator } from '../components/ui/separator';
 
 const transferSchema = z.object({
   recipientEmail: z.string().email('Please enter a valid email'),

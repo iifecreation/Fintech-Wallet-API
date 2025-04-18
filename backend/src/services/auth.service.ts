@@ -26,7 +26,7 @@ export const register = async (data: { name: string; email: string; password: st
   if (!existingWallet) {
     await Wallet.create({
       user: user._id,
-      walletId: `WALLET-${uuidv4()}`, 
+      walletId: `WALLET-${user._id}`, 
     });
   }
 

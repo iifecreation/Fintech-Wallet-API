@@ -1,4 +1,4 @@
-import { LoginCredentials, RegisterCredentials, User } from '@/types';
+import { LoginCredentials, RegisterCredentials, User } from '../types/index';
 import { request } from './api';
 
 const authService = {

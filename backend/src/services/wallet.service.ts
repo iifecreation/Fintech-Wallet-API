@@ -1,18 +1,18 @@
-import { WalletModel } from '../models/wallet.model';
-import { TransactionModel } from '../models/transaction.model';
-import { UserModel } from '../models/user.model';
+import { Wallet } from '../models/wallet.model';
+import { Transaction } from '../models/transaction.model';
+import { User } from '../models/user.model';
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { generatePaymentLink } from '../utils/paystack';
 
 export const getWalletBalance = async (userId: mongoose.Types.ObjectId) => {
-  const wallet = await WalletModel.findOne({ user: userId });
+  const wallet = await Wallet.findOne({ user: userId });
   if (!wallet) throw new Error('Wallet not found');
   return { balance: wallet.balance };
 };
 
 export const getWalletDetails = async (userId: mongoose.Types.ObjectId) => {
-  const wallet = await WalletModel.findOne({ user: userId }).populate('user');
+  const wallet = await Wallet.findOne({ user: userId }).populate('user');
   if (!wallet) throw new Error('Wallet not found');
   return wallet;
 };
@@ -24,8 +24,8 @@ export const getTransactionHistory = async (userId: mongoose.Types.ObjectId, pag
   if (type) query.type = type.toUpperCase();
   const skip = (page - 1) * limit;
   const [transactions, total] = await Promise.all([
-    TransactionModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
-    TransactionModel.countDocuments(query),
+    Transaction.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+    Transaction.countDocuments(query),
   ]);
   return {
     data: transactions,
@@ -36,11 +36,11 @@ export const getTransactionHistory = async (userId: mongoose.Types.ObjectId, pag
 };
 
 export const initiateFunding = async (userId: mongoose.Types.ObjectId, amount: number) => {
-  const wallet = await WalletModel.findOne({ user: userId });
+  const wallet = await Wallet.findOne({ user: userId });
   if (!wallet) throw new Error('Wallet not found');
   const reference = uuidv4();
   const paymentLink = await generatePaymentLink({ amount, reference, email: wallet.user.email });
-  await TransactionModel.create({
+  await Transaction.create({
     reference,
     type: 'FUND',
     amount,
@@ -51,9 +51,9 @@ export const initiateFunding = async (userId: mongoose.Types.ObjectId, amount: n
 };
 
 export const transferFunds = async (senderId: mongoose.Types.ObjectId, receiverEmail: string, amount: number) => {
-  const senderWallet = await WalletModel.findOne({ user: senderId });
-  const receiverUser = await UserModel.findOne({ email: receiverEmail });
-  const receiverWallet = receiverUser && await WalletModel.findOne({ user: receiverUser._id });
+  const senderWallet = await Wallet.findOne({ user: senderId });
+  const receiverUser = await User.findOne({ email: receiverEmail });
+  const receiverWallet = receiverUser && await Wallet.findOne({ user: receiverUser._id });
   if (!senderWallet || !receiverUser || !receiverWallet) throw new Error('User or wallet not found');
   if (senderWallet.balance < amount) throw new Error('Insufficient balance');
 
@@ -63,7 +63,7 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, receiverE
   await receiverWallet.save();
 
   const reference = uuidv4();
-  await TransactionModel.create({
+  await Transaction.create({
     reference,
     type: 'TRANSFER',
     amount,
@@ -78,14 +78,14 @@ export const withdrawFunds = async (userId: mongoose.Types.ObjectId, amount: num
   const MIN_AMOUNT = 1000;
   const WITHDRAW_FEE = 50;
   if (amount < MIN_AMOUNT) throw new Error('Minimum withdrawal is ₦1000');
-  const wallet = await WalletModel.findOne({ user: userId });
+  const wallet = await Wallet.findOne({ user: userId });
   if (!wallet) throw new Error('Wallet not found');
   const totalAmount = amount + WITHDRAW_FEE;
   if (wallet.balance < totalAmount) throw new Error('Insufficient balance');
   wallet.balance -= totalAmount;
   await wallet.save();
   const reference = uuidv4();
-  await TransactionModel.create({
+  await Transaction.create({
     reference,
     type: 'WITHDRAW',
     amount,

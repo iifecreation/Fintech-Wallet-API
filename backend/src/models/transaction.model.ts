@@ -1,4 +1,3 @@
-// src/models/transaction.model.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
 export type TransactionType = 'fund' | 'transfer' | 'withdraw';
@@ -7,7 +6,7 @@ export interface ITransaction extends Document {
   type: TransactionType;
   amount: number;
   status: 'success' | 'failed';
-  reference: string; // UUID
+  reference: string;
   sender?: mongoose.Types.ObjectId;
   receiver?: mongoose.Types.ObjectId;
   wallet: mongoose.Types.ObjectId;

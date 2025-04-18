@@ -37,7 +37,7 @@ export const getTransactions = async (req: Request, res: Response, next: NextFun
 export const fundWallet = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { amount } = req.body;
-    const result = await WalletService.initiateFunding(req.user._id, amount);
+    const result = await WalletService.initiateFunding(req?.user._id, amount);
     res.status(200).json({ success: true, data: result });
   } catch (err) {
     next(err);

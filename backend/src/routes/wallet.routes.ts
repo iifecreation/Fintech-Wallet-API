@@ -1,4 +1,3 @@
-// routes/wallet.routes.ts
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import {

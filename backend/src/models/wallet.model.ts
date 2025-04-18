@@ -1,8 +1,7 @@
-// src/models/wallet.model.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IWallet extends Document {
-  walletId: string; // 10-digit unique ID
+  walletId: string;
   balance: number;
   user: mongoose.Types.ObjectId;
 }

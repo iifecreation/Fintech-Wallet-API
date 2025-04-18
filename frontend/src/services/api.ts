@@ -4,7 +4,7 @@ import { ApiResponse } from '@/types/index';
 
 // Create Axios instance with default config
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1', // Replace with your actual API URL
+  baseURL: 'https://6999-41-217-81-243.ngrok-free.app/api/v1', // Replace with your actual API URL
   headers: {
     'Content-Type': 'application/json',
   },

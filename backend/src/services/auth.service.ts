@@ -1,11 +1,17 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
+import { Wallet } from '../models/wallet.model';
 import { generateUUID } from '../utils/generateUUID';
 import { PasswordReset } from '../models/passwordReset.model';
 import { sendEmail } from '../utils/email';
+import { v4 as uuidv4 } from 'uuid';
+import dotenv from 'dotenv';
 
-const JWT_Secret = process.env.JWT_SECRET as string || "vyufvdsdvVSRDRDJVUFTYDOIUIHb9U89Y7FYAFddse";
+dotenv.config();
+
+
+const JWT_Secret = process.env.JWT_SECRET as string;
 
 if (!JWT_Secret) throw new Error('JWT_SECRET is not set');
 
@@ -15,6 +21,14 @@ export const register = async (data: { name: string; email: string; password: st
 
   const hashedPassword = await bcrypt.hash(data.password, 10);
   const user = await User.create({ ...data, password: hashedPassword });
+
+  const existingWallet = await Wallet.findOne({ user: user._id });
+  if (!existingWallet) {
+    await Wallet.create({
+      user: user._id,
+      walletId: `WALLET-${uuidv4()}`, 
+    });
+  }
 
   await sendEmail(
     user.email,
@@ -42,6 +56,7 @@ export const login = async (data: { email: string; password: string }) => {
   return {
     success: true,
     data: {
+      user,
       token,
       message: 'Login successful',
     }

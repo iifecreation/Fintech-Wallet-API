@@ -63,10 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
       
-      const {message, token } = await authService.login({ email, password });
-      
+      const {user, token } = await authService.login({ email, password });
       setAuthState({
-        user: null,
+        user,
         token,
         isAuthenticated: true,
         isLoading: false,

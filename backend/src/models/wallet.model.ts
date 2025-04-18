@@ -9,7 +9,7 @@ export interface IWallet extends Document {
 const walletSchema = new Schema<IWallet>(
   {
     walletId: { type: String, unique: true, required: true },
-    balance: { type: Number, default: 0 },
+    balance: { type: Number, default: 0, unique: true, },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

@@ -5,7 +5,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { LogOut, Wallet, CreditCard, SendHorizontal, ArrowDownToLine, LayoutDashboard, Bell, Menu, X, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 interface SidebarLinkProps {
@@ -62,7 +61,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   }
 
   const user = authState.user;
-  const initials = user ? `${user.firstName[0]}${user.lastName[0]}` : 'UR';
+  const initials = user ? `${user.name}` : 'UR';
   
   const navigationItems = [
     { 
@@ -187,17 +186,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <span className="text-foreground text-lg font-bold">FinWave</span>
         </div>
         
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
-          </Button>
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
-        </div>
       </div>
       
       {/* Desktop Header */}
@@ -207,19 +195,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </h1>
         
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
-          </Button>
           
           <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary text-primary-foreground">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
             <div className="text-sm">
-              <p className="font-medium">{user?.firstName} {user?.lastName}</p>
+              <p className="font-medium">{user?.name}</p>
               <p className="text-muted-foreground">{user?.email}</p>
             </div>
           </div>

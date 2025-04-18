@@ -47,11 +47,12 @@ const FundWallet = () => {
 
   const onSubmit = async (data: FundWalletFormValues) => {
     setRedirecting(true);
-    const paymentUrl = await fundWallet(data.amount);
+    const response = await fundWallet(data.amount);
+    let url = response.paymentLink.data.authorization_url
     
-    if (paymentUrl) {
+    if (url) {
       // Redirect to payment gateway
-      window.location.href = paymentUrl;
+      window.location.href = url;
     } else {
       setRedirecting(false);
     }

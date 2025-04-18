@@ -18,35 +18,43 @@ export interface User {
   
   // Wallet Types
   export interface Wallet {
-    id: string;
+    _id: string;
+    walletId: string;
     balance: number;
-    userId: string;
-    createdAt: string;
+    createdAt?: string;
     updatedAt: string;
+    user: {
+      createdAt?: string;
+      updatedAt: string;
+      email: string,
+      name: string,
+      _id: string;
+    }
   }
   
   // Transaction Types
   export enum TransactionType {
-    FUNDING = 'FUNDING',
-    TRANSFER = 'TRANSFER',
-    WITHDRAWAL = 'WITHDRAWAL'
+    FUNDING = 'fund',
+    TRANSFER = 'transfer',
+    WITHDRAWAL = 'withdraw'
   }
   
   export enum TransactionStatus {
-    PENDING = 'PENDING',
-    SUCCESSFUL = 'SUCCESSFUL',
-    FAILED = 'FAILED'
+    PENDING = 'pending',
+    SUCCESSFUL = 'success',
+    FAILED = 'failed'
   }
   
   export interface Transaction {
-    id: string;
+    _id: string;
     amount: number;
     type: TransactionType;
     status: TransactionStatus;
     reference: string;
-    senderWalletId?: string;
-    recipientWalletId?: string;
-    recipientEmail?: string;
+    sender?: string;
+    receiver?: string;
+    description: string
+    wallet?: any;
     createdAt: string;
     metadata?: Record<string, any>;
   }

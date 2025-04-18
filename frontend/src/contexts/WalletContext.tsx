@@ -46,7 +46,8 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       
       const walletData = await walletService.getWalletBalance();
-      setWallet(walletData);
+      
+      setWallet(walletData?.balance);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch wallet balance';
       setError(errorMessage);
@@ -69,8 +70,9 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       
       const response = await walletService.getTransactions(page, limit);
-      setTransactions(response.data);
-      setTransactionMeta(response.meta);
+     
+      setTransactions(response);
+      setTransactionMeta(response);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch transactions';
       setError(errorMessage);
@@ -98,7 +100,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       });
       
       // Return payment URL for redirect
-      return response.paymentUrl;
+      return response;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to initiate funding';
       setError(errorMessage);

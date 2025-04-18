@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
+import dotenv from 'dotenv';
 
-const JWT_SECRET = process.env.JWT_SECRET! || "vyufvdsdvVSRDRDJVUFTYDOIUIHb9U89Y7FYAFddse";;
+dotenv.config();
+
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;

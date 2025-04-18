@@ -18,6 +18,7 @@ import Transfer from "./pages/Transfer";
 import Withdraw from "./pages/Withdraw";
 import Transactions from "./pages/Transactions";
 import NotFound from "./pages/NotFound";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,8 @@ const App = () => (
               <Route path="/transfer" element={<ProtectedRoute><Transfer /></ProtectedRoute>} />
               <Route path="/withdraw" element={<ProtectedRoute><Withdraw /></ProtectedRoute>} />
               <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
+              <Route path="/success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+              
               
               {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />

@@ -52,15 +52,16 @@ const Dashboard = () => {
   }, []);
 
   // Calculate quick stats
-  const recentTransactions = transactions.slice(0, 5);
+  const recentTransactions = transactions?.slice(0, 5);
   
   const totalIncoming = transactions
-    .filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL)
-    .reduce((sum, t) => sum + t.amount, 0);
+    ?.filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL)
+    ?.reduce((sum, t) => sum + t.amount, 0);
+    
     
   const totalOutgoing = transactions
-    .filter(t => (t.type === TransactionType.TRANSFER || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
-    .reduce((sum, t) => sum + t.amount, 0);
+    ?.filter(t => (t.type === TransactionType.TRANSFER || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
+    ?.reduce((sum, t) => sum + t.amount, 0);
 
   const getTransactionIcon = (type: TransactionType) => {
     switch (type) {
@@ -172,7 +173,7 @@ const Dashboard = () => {
                   <Skeleton className="h-8 w-24" />
                 ) : (
                   <div className="text-2xl font-bold text-success">
-                    {formatCurrency(totalIncoming)}
+                    {formatCurrency(totalIncoming || 0)}
                   </div>
                 )}
               </CardContent>
@@ -194,7 +195,7 @@ const Dashboard = () => {
                   <Skeleton className="h-8 w-24" />
                 ) : (
                   <div className="text-2xl font-bold text-danger">
-                    {formatCurrency(totalOutgoing)}
+                    {formatCurrency(totalOutgoing || 0)}
                   </div>
                 )}
               </CardContent>
@@ -237,9 +238,9 @@ const Dashboard = () => {
                     </div>
                   ))}
                 </div>
-              ) : recentTransactions.length > 0 ? (
+              ) : recentTransactions?.length > 0 ? (
                 <div className="space-y-4">
-                  {recentTransactions.map((transaction : any) => (
+                  {recentTransactions?.map((transaction : any) => (
                     <div key={transaction.id}>
                       <div className="flex items-center justify-between py-2">
                         <div className="flex items-center gap-3">

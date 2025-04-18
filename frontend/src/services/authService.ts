@@ -3,7 +3,7 @@ import { request } from './api';
 
 const authService = {
   login: async (credentials: LoginCredentials) => {
-    const response = await request<{ message: string, token: string }>({
+    const response = await request<{ message: string, token: string, user: any }>({
       method: 'POST',
       url: '/auth/login',
       data: credentials,
@@ -14,6 +14,7 @@ const authService = {
     
     // Store token and user in localStorage
     localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
     
     return response;
   },

@@ -7,6 +7,7 @@ export interface ITransaction extends Document {
   amount: number;
   status: 'success' | 'failed';
   reference: string;
+  description: string;
   sender?: mongoose.Types.ObjectId;
   receiver?: mongoose.Types.ObjectId;
   wallet: mongoose.Types.ObjectId;
@@ -18,6 +19,7 @@ const transactionSchema = new Schema<ITransaction>(
     amount: { type: Number, required: true },
     status: { type: String, enum: ['success', 'failed'], default: 'success' },
     reference: { type: String, unique: true, required: true },
+    description: { type: String},
     sender: { type: Schema.Types.ObjectId, ref: 'User' },
     receiver: { type: Schema.Types.ObjectId, ref: 'User' },
     wallet: { type: Schema.Types.ObjectId, ref: 'Wallet', required: true },

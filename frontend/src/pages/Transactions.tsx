@@ -21,16 +21,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -38,13 +29,8 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+
 import { Transaction, TransactionStatus, TransactionType } from '@/types';
-import { Calendar } from '@/components/ui/calendar';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -80,13 +66,13 @@ const Transactions = () => {
   }, [currentPage]);
 
   // Apply filters to transactions
-  const filteredTransactions = transactions.filter(transaction => {
+  const filteredTransactions = transactions?.filter((transaction: any) => {
     // Search filter
     const searchFields = [
       transaction.reference,
       transaction.recipientEmail || '',
       transaction.id,
-    ].map(field => field.toLowerCase());
+    ].map(field => field);
     
     const matchesSearch = searchTerm === '' || 
       searchFields.some(field => field.includes(searchTerm.toLowerCase()));
@@ -162,77 +148,6 @@ const Transactions = () => {
               Refresh
             </Button>
             
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Filter
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <div className="space-y-4">
-                  <h4 className="font-medium">Filter Transactions</h4>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Transaction Type</label>
-                    <Select value={typeFilter} onValueChange={setTypeFilter}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="All Types" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Types</SelectItem>
-                        <SelectItem value={TransactionType.FUNDING}>Funding</SelectItem>
-                        <SelectItem value={TransactionType.TRANSFER}>Transfer</SelectItem>
-                        <SelectItem value={TransactionType.WITHDRAWAL}>Withdrawal</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Status</label>
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="All Statuses" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value={TransactionStatus.SUCCESSFUL}>Successful</SelectItem>
-                        <SelectItem value={TransactionStatus.PENDING}>Pending</SelectItem>
-                        <SelectItem value={TransactionStatus.FAILED}>Failed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Date</label>
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      className="rounded-md border"
-                    />
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <Button variant="outline" size="sm" onClick={resetFilters}>
-                      Reset
-                    </Button>
-                    <Button size="sm">Apply Filters</Button>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-            
-            <div className="relative">
-              <Search className="h-4 w-4 absolute left-2.5 top-2.5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search transactions..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 h-9 w-[200px] md:w-[300px]"
-              />
-            </div>
           </div>
         </div>
 
@@ -246,7 +161,7 @@ const Transactions = () => {
               <div>
                 <CardTitle>All Transactions</CardTitle>
                 <CardDescription>
-                  {filteredTransactions.length} transactions found
+                  {filteredTransactions?.length} transactions found
                 </CardDescription>
               </div>
               
@@ -293,7 +208,7 @@ const Transactions = () => {
                     </div>
                   ))}
                 </div>
-              ) : filteredTransactions.length > 0 ? (
+              ) : filteredTransactions?.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>

@@ -6,13 +6,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { generatePaymentLink } from '../utils/paystack';
 
 export const getWalletBalance = async (userId: mongoose.Types.ObjectId) => {
-  const wallet = await Wallet.findOne({ user: userId });
+  const wallet = await Wallet.findOne({ user: userId }).populate({
+    path: 'user',
+    select: '-password'
+  });
   if (!wallet) throw new Error('Wallet not found');
-  return { balance: wallet.balance };
+  return { balance: wallet };
 };
 
 export const getWalletDetails = async (userId: mongoose.Types.ObjectId) => {
-  const wallet = await Wallet.findOne({ user: userId }).populate('user');
+  const wallet = await Wallet.findOne({ user: userId }).populate({
+    path: 'user',
+    select: '-password'
+  });
   if (!wallet) throw new Error('Wallet not found');
   return wallet;
 };
@@ -36,16 +42,20 @@ export const getTransactionHistory = async (userId: mongoose.Types.ObjectId, pag
 };
 
 export const initiateFunding = async (userId: mongoose.Types.ObjectId, amount: number) => {
-  const wallet = await Wallet.findOne({ user: userId });
+    const wallet:any = await Wallet.findOne({ user: userId }).populate({
+      path: 'user',
+      select: '-password'
+    });
   if (!wallet) throw new Error('Wallet not found');
   const reference = uuidv4();
   const paymentLink = await generatePaymentLink({ amount, reference, email: wallet.user.email });
   await Transaction.create({
-    reference,
-    type: 'FUND',
+    reference: paymentLink.data.reference,
+    type: 'fund',
     amount,
-    status: 'PENDING',
+    status: 'success',
     receiver: userId,
+    wallet: wallet._id
   });
   return { paymentLink };
 };

@@ -12,7 +12,7 @@ interface WalletContextProps {
   isLoading: boolean;
   error: string | null;
   fetchWalletBalance: () => Promise<void>;
-  fetchTransactions: (page?: number, limit?: number) => Promise<void>;
+  fetchTransactions: () => Promise<void>;
   fundWallet: (amount: number) => Promise<any | undefined>;
   transferFunds: (amount: number, recipientEmail: string) => Promise<boolean>;
   withdrawFunds: (amount: number, accountNumber: string, bankCode: string) => Promise<boolean>;
@@ -46,7 +46,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       
       const walletData = await walletService.getWalletBalance();
-      
+      console.log(walletData);
       setWallet(walletData?.balance);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch wallet balance';
@@ -62,14 +62,15 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const fetchTransactions = async (page = 1, limit = 10) => {
+  const fetchTransactions = async () => {
     if (!authState.isAuthenticated) return;
     
     try {
       setIsLoading(true);
       setError(null);
       
-      const response = await walletService.getTransactions(page, limit);
+      const response = await walletService.getTransactions();
+     console.log(response);
      
       setTransactions(response);
       setTransactionMeta(response);

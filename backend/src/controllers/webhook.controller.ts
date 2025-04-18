@@ -9,8 +9,6 @@ export const handlePaystackWebhook = async (
     res: Response
   ): Promise<void> => {
     try {
-
-      console.log(req);
       
       const hash = crypto
         .createHmac('sha512', PAYSTACK_SECRET)

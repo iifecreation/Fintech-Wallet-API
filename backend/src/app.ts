@@ -5,6 +5,7 @@ import routes from './routes/index';
 import { errorHandler } from './middlewares/error.middleware';
 // import './types/express';
 import webhookRoutes from "./routes/webhook.routes"
+import morgan from 'morgan';
 
 
 dotenv.config();
@@ -18,8 +19,8 @@ const corsOptions = {
     credentials: true,
   };
   
-  app.use(cors(corsOptions));
-
+app.use(cors(corsOptions));
+app.use(morgan('dev'));
 app.use('/api/webhook', webhookRoutes);
 
 app.use(express.json());

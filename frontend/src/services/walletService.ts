@@ -5,7 +5,7 @@ import {
   TransferFundsData, 
   Wallet, 
   WithdrawFundsData 
-} from '@/types';
+} from '../types/index';
 import { request } from './api';
 
 const walletService = {
@@ -40,14 +40,10 @@ const walletService = {
     });
   },
   
-  getTransactions: async (page = 1, limit = 10) => {
+  getTransactions: async () => {
     return request<TransactionResponse>({
       method: 'GET',
       url: '/wallet/transactions',
-      params: {
-        page,
-        limit,
-      },
     });
   },
   

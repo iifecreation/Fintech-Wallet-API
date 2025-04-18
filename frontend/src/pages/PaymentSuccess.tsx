@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { useWallet } from '@/contexts/WalletContext';
-import { useToast } from '@/components/ui/use-toast';
-import walletService from '@/services/walletService';
+import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/card';
+import { useWallet } from '../contexts/WalletContext';
+import { useToast } from '../components/ui/use-toast';
+// import walletService from '../services/walletService';
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();

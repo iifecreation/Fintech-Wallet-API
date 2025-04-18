@@ -1,17 +1,17 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useWallet } from '@/contexts/WalletContext';
-import DashboardLayout from '@/components/layout/DashboardLayout';
+import { useWallet } from '../contexts/WalletContext';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, CreditCard, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Alert, AlertDescription } from '../components/ui/alert';
 
 // Define quick amounts
 const QUICK_AMOUNTS = [1000, 5000, 10000, 20000, 50000];
@@ -48,7 +48,7 @@ const FundWallet = () => {
   const onSubmit = async (data: FundWalletFormValues) => {
     setRedirecting(true);
     const response = await fundWallet(data.amount);
-    let url = response.paymentLink.data.authorization_url
+    let url = response?.paymentLink?.data.authorization_url
     
     if (url) {
       // Redirect to payment gateway

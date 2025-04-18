@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useWallet } from '@/contexts/WalletContext';
-import DashboardLayout from '@/components/layout/DashboardLayout';
+import { useWallet } from '../contexts/WalletContext';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import { formatDistanceToNow } from 'date-fns';
 import { 
   CreditCard, 
@@ -17,12 +17,12 @@ import {
   SendHorizontal,
   ArrowDownToLine
 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Transaction, TransactionStatus, TransactionType } from '@/types';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Separator } from '../components/ui/separator';
+import { Skeleton } from '../components/ui/skeleton';
+import { Transaction, TransactionStatus, TransactionType } from '../types/index';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {

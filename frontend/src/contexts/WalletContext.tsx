@@ -1,9 +1,9 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import walletService from '@/services/walletService';
-import { Transaction, TransactionResponse, Wallet } from '@/types';
+import walletService from '../services/walletService';
+import { Transaction, TransactionResponse, Wallet } from '../types/index';
 import { useAuth } from './AuthContext';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '../components/ui/use-toast';
 
 interface WalletContextProps {
   wallet: Wallet | null;
@@ -13,7 +13,7 @@ interface WalletContextProps {
   error: string | null;
   fetchWalletBalance: () => Promise<void>;
   fetchTransactions: (page?: number, limit?: number) => Promise<void>;
-  fundWallet: (amount: number) => Promise<string | undefined>;
+  fundWallet: (amount: number) => Promise<any | undefined>;
   transferFunds: (amount: number, recipientEmail: string) => Promise<boolean>;
   withdrawFunds: (amount: number, accountNumber: string, bankCode: string) => Promise<boolean>;
 }

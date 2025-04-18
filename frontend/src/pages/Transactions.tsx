@@ -1,36 +1,34 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useWallet } from '@/contexts/WalletContext';
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import { format, formatDistanceToNow } from 'date-fns';
+import { useWallet } from '../contexts/WalletContext';
+import DashboardLayout from '../components/layout/DashboardLayout';
+import { format } from 'date-fns';
 import { 
   TrendingUp, 
   TrendingDown, 
   ChevronLeft, 
   ChevronRight, 
   RefreshCw,
-  Search,
   FileText,
   Plus,
   SendHorizontal,
   ArrowDownToLine,
-  Filter,
   SlidersHorizontal
 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Skeleton } from '../components/ui/skeleton';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuGroup, 
   DropdownMenuItem, 
   DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu';
+} from '../components/ui/dropdown-menu';
 
-import { Transaction, TransactionStatus, TransactionType } from '@/types';
+import { Transaction, TransactionStatus, TransactionType } from '../types/index';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -223,7 +221,7 @@ const Transactions = () => {
                     </thead>
                     <tbody>
                       {filteredTransactions.map((transaction) => (
-                        <tr key={transaction.id} className="border-b hover:bg-muted/50">
+                        <tr key={transaction?.id} className="border-b hover:bg-muted/50">
                           <td className="py-4 px-2">
                             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                               {transaction.type === TransactionType.FUNDING ? (
@@ -237,7 +235,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer to ${transaction.recipientEmail}`
+                                  ? `Transfer to ${transaction?.recipientEmail}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

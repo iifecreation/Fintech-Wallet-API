@@ -1,6 +1,6 @@
 
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ApiResponse } from '@/types/index';
+import { ApiResponse } from '../types/index';
 
 // Create Axios instance with default config
 const api = axios.create({

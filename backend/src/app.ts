@@ -19,6 +19,9 @@ const corsOptions = {
     credentials: true,
   };
   
+app.get("/", (req, res) => {
+  res.send("hello")
+})
 app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use('/api/webhook', webhookRoutes);

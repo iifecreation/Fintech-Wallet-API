@@ -42,13 +42,13 @@ const Dashboard = () => {
     setRefreshing(true);
     await Promise.all([
       fetchWalletBalance(),
-      fetchTransactions(1, 5),
+      fetchTransactions(),
     ]);
     setTimeout(() => setRefreshing(false), 500);
   };
 
   useEffect(() => {
-    fetchTransactions(1, 5);
+    fetchTransactions();
   }, []);
 
   // Calculate quick stats

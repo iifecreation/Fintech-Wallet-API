@@ -34,7 +34,6 @@ const Transfer = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     reset,
     watch,
   } = useForm<TransferFormValues>({

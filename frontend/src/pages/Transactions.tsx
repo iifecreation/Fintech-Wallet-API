@@ -11,9 +11,9 @@ import {
   ChevronRight, 
   RefreshCw,
   FileText,
-  Plus,
-  SendHorizontal,
-  ArrowDownToLine,
+  // Plus,
+  // SendHorizontal,
+  // ArrowDownToLine,
   SlidersHorizontal
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
@@ -50,17 +50,17 @@ const Transactions = () => {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchTransactions(currentPage);
+    await fetchTransactions();
     setTimeout(() => setRefreshing(false), 500);
   };
 
   const handlePageChange = async (page: number) => {
     setCurrentPage(page);
-    await fetchTransactions(page);
+    await fetchTransactions();
   };
 
   useEffect(() => {
-    fetchTransactions(currentPage);
+    fetchTransactions();
   }, [currentPage]);
 
   // Apply filters to transactions
@@ -97,24 +97,24 @@ const Transactions = () => {
     setDate(undefined);
   };
 
-  const getTransactionIcon = (type: TransactionType) => {
-    switch (type) {
-      case TransactionType.FUNDING:
-        return <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-          <Plus className="h-3 w-3 mr-1" />Funding
-        </Badge>;
-      case TransactionType.TRANSFER:
-        return <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-          <SendHorizontal className="h-3 w-3 mr-1" />Transfer
-        </Badge>;
-      case TransactionType.WITHDRAWAL:
-        return <Badge variant="outline" className="bg-danger/10 text-danger border-danger/20">
-          <ArrowDownToLine className="h-3 w-3 mr-1" />Withdrawal
-        </Badge>;
-      default:
-        return null;
-    }
-  };
+  // const getTransactionIcon = (type: TransactionType) => {
+  //   switch (type) {
+  //     case TransactionType.FUNDING:
+  //       return <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+  //         <Plus className="h-3 w-3 mr-1" />Funding
+  //       </Badge>;
+  //     case TransactionType.TRANSFER:
+  //       return <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
+  //         <SendHorizontal className="h-3 w-3 mr-1" />Transfer
+  //       </Badge>;
+  //     case TransactionType.WITHDRAWAL:
+  //       return <Badge variant="outline" className="bg-danger/10 text-danger border-danger/20">
+  //         <ArrowDownToLine className="h-3 w-3 mr-1" />Withdrawal
+  //       </Badge>;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   const getAmountLabel = (transaction: Transaction) => {
     if (transaction.type === TransactionType.FUNDING) {

@@ -45,7 +45,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
       setError(null);
       
-      const walletData = await walletService.getWalletBalance();
+      const walletData:any = await walletService.getWalletBalance();
       console.log(walletData);
       setWallet(walletData?.balance);
     } catch (error) {
@@ -69,7 +69,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
       setError(null);
       
-      const response = await walletService.getTransactions();
+      const response: any = await walletService.getTransactions();
      console.log(response);
      
       setTransactions(response);

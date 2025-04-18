@@ -5,7 +5,9 @@ import { generateUUID } from '../utils/generateUUID';
 import { PasswordReset } from '../models/passwordReset.model';
 import { sendEmail } from '../utils/email';
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_Secret = process.env.JWT_SECRET as string || "vyufvdsdvVSRDRDJVUFTYDOIUIHb9U89Y7FYAFddse";
+
+if (!JWT_Secret) throw new Error('JWT_SECRET is not set');
 
 export const register = async (data: { name: string; email: string; password: string }) => {
   const existing = await User.findOne({ email: data.email });
@@ -14,7 +16,19 @@ export const register = async (data: { name: string; email: string; password: st
   const hashedPassword = await bcrypt.hash(data.password, 10);
   const user = await User.create({ ...data, password: hashedPassword });
 
-  return { message: 'Registration successful', user: { email: user.email, name: user.name } };
+  // ✅ Send welcome email
+  await sendEmail(
+    user.email,
+    'Welcome to Fintech Wallet',
+    `<h2>Hello ${user.name},</h2><p>Thanks for registering! Your wallet is now ready to use.</p>`
+  );
+
+  return {
+    success: true,
+    data: {
+      message: 'Registration successful',
+    }
+  };
 };
 
 export const login = async (data: { email: string; password: string }) => {
@@ -24,9 +38,15 @@ export const login = async (data: { email: string; password: string }) => {
   const match = await bcrypt.compare(data.password, user.password);
   if (!match) throw new Error('Invalid credentials');
 
-  const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+  const token = jwt.sign({ id: user._id }, JWT_Secret, { expiresIn: '1d' });
 
-  return { message: 'Login successful', token };
+  return {
+    success: true,
+    data: {
+      token,
+      message: 'Login successful',
+    }
+  };
 };
 
 export const forgotPassword = async (email: string) => {
@@ -39,7 +59,12 @@ export const forgotPassword = async (email: string) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
   await sendEmail(email, 'Password Reset', `Click here to reset: ${resetUrl}`);
 
-  return { message: 'Password reset link sent' };
+  return { 
+    success: true,
+    data: {
+      message: 'Password reset link sent to your mail'
+    }
+  };
 };
 
 export const resetPassword = async (token: string, newPassword: string) => {
@@ -53,5 +78,10 @@ export const resetPassword = async (token: string, newPassword: string) => {
   await user.save();
   await PasswordReset.deleteOne({ token });
 
-  return { message: 'Password reset successful' };
+  return { 
+    success: true,
+    data: {
+      message: 'Password reset successful'
+    }
+  };
 };

@@ -63,9 +63,9 @@ export const initiateFunding = async (userId: mongoose.Types.ObjectId, amount: n
   return { paymentLink };
 };
 
-export const transferFunds = async (senderId: mongoose.Types.ObjectId, receiverEmail: string, amount: number) => {
+export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipientEmail: string, amount: number, description: string) => {
   const senderWallet = await Wallet.findOne({ user: senderId });
-  const receiverUser = await User.findOne({ email: receiverEmail });
+  const receiverUser = await User.findOne({ email: recipientEmail });
   const receiverWallet = receiverUser && await Wallet.findOne({ user: receiverUser._id });
   if (!senderWallet || !receiverUser || !receiverWallet) throw new Error('User or wallet not found');
   if (senderWallet.balance < amount) throw new Error('Insufficient balance');
@@ -78,11 +78,12 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, receiverE
   const reference = uuidv4();
   await Transaction.create({
     reference,
-    type: 'TRANSFER',
+    type: 'transfer',
     amount,
-    status: 'SUCCESS',
+    status: 'success',
     sender: senderId,
     receiver: receiverUser._id,
+    description
   });
   return { message: 'Transfer successful', reference };
 };

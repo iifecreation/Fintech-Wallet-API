@@ -63,8 +63,8 @@ export const transferFunds = async (req: any, res: Response, next: NextFunction)
 export const withdrawFunds = async (req: any, res: Response, next: NextFunction) => {
   try {
     const userId = new mongoose.Types.ObjectId(req?.user!._id);
-    const { amount } = req.body;
-    const result = await WalletService.withdrawFunds(userId, amount);
+    const { amount, bank, accountNumber } = req.body;
+    const result = await WalletService.withdrawFunds(userId, amount, bank, accountNumber );
     res.status(200).json({ success: true, data: result });
   } catch (err) {
     next(err);

@@ -4,6 +4,9 @@ import { User } from '../models/user.model';
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { generatePaymentLink } from '../utils/paystack';
+import { resolveBankAccount } from '../utils/resolveBankAccount';
+import { initiateTransfer } from '../utils/withdrawal';
+import { createTransferRecipient } from '../utils/createTransferRecipient';
 
 export const getWalletBalance = async (userId: mongoose.Types.ObjectId) => {
   const wallet = await Wallet.findOne({ user: userId }).populate({
@@ -84,23 +87,53 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, receiverE
   return { message: 'Transfer successful', reference };
 };
 
-export const withdrawFunds = async (userId: mongoose.Types.ObjectId, amount: number) => {
+export const withdrawFunds = async (
+  userId: mongoose.Types.ObjectId,
+  amount: number,
+  bank: string,
+  accountNumber: string
+) => {
   const MIN_AMOUNT = 1000;
   const WITHDRAW_FEE = 50;
   if (amount < MIN_AMOUNT) throw new Error('Minimum withdrawal is ₦1000');
+
   const wallet = await Wallet.findOne({ user: userId });
   if (!wallet) throw new Error('Wallet not found');
+
   const totalAmount = amount + WITHDRAW_FEE;
   if (wallet.balance < totalAmount) throw new Error('Insufficient balance');
+
+  const resolved = await resolveBankAccount(accountNumber, bank); // Confirm it's valid
+
+  // Optional: Create a recipient
+  const recipient = await createTransferRecipient({
+    account_number: accountNumber,
+    bank_code: bank,
+    name: resolved.account_name,
+  });
+
+  // Initiate transfer
+  const transfer = await initiateTransfer({
+    amount,
+    recipient_code: recipient.recipient_code,
+    reason: "Wallet Withdrawal",
+  });
+
   wallet.balance -= totalAmount;
   await wallet.save();
+
   const reference = uuidv4();
   await Transaction.create({
     reference,
     type: 'WITHDRAW',
     amount,
-    status: 'SUCCESS',
+    status: 'PENDING', // You can update to SUCCESS via webhook
     sender: userId,
+    metadata: {
+      paystackTransfer: transfer,
+    },
   });
-  return { message: 'Withdrawal successful', reference };
+
+  return { message: 'Withdrawal initiated', reference };
 };
+

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { cn } from '../../lib/utils';
-import { LogOut, Wallet, CreditCard, SendHorizontal, ArrowDownToLine, LayoutDashboard, Bell, Menu, X, History } from 'lucide-react';
+import { LogOut, Wallet, CreditCard, SendHorizontal, ArrowDownToLine, LayoutDashboard, Menu, X, History } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/ui/sheet';
 
@@ -61,7 +61,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   }
 
   const user: any = authState.user;
-  const initials = user ? `${user?.name}` : 'UR';
+  // const initials = user ? `${user?.name}` : 'UR';
   
   const navigationItems = [
     { 

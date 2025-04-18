@@ -8,7 +8,7 @@ import { useToast } from '../components/ui/use-toast';
 interface AuthContextProps {
   authState: AuthState;
   login: (email: string, password: string) => Promise<void>;
-  register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 

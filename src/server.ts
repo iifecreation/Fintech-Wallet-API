@@ -3,9 +3,6 @@ import { connectDB } from './config/db';
 
 const PORT = process.env.PORT;
 
-console.log("hello");
-
-
 (async () => {
   await connectDB();
   app.listen(PORT, () => {

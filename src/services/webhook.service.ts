@@ -12,7 +12,7 @@ export const processSuccessfulFunding = async (eventData: any) => {
   if (!transaction || transaction.status !== 'success') return;
 
   const userWallet = await Wallet.findOne({ user: transaction.receiver });
-  console.log("wallet", userWallet);
+ 
   if (!userWallet) return;
 
   // Convert kobo to naira
@@ -20,8 +20,7 @@ export const processSuccessfulFunding = async (eventData: any) => {
 
   // Update wallet balance
   userWallet.balance += amount;
-  let msg = await userWallet.save();
-  console.log(msg, amount);
+   await userWallet.save();
   
 
   // Mark transaction as successful

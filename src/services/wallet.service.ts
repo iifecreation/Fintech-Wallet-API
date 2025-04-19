@@ -89,8 +89,6 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipient
     recipientName: receiverUser.name,
     senderName
   });
-
-  console.log(way);
   
   return { message: 'Transfer successful', reference };
 };
@@ -111,7 +109,7 @@ export const withdrawFunds = async (
   const totalAmount = amount + WITHDRAW_FEE;
   if (wallet.balance < totalAmount) throw new Error('Insufficient balance');
 
-  const resolved = await resolveBankAccount(accountNumber, bank); // Confirm it's valid
+  const resolved = await resolveBankAccount(accountNumber, bank);
 
   // Optional: Create a recipient
   const recipient = await createTransferRecipient({
@@ -127,7 +125,7 @@ export const withdrawFunds = async (
     reference: recipient.recipient_code,
     type: 'withdraw',
     amount: totalAmount,
-    status: 'pending', // You can update to SUCCESS via webhook
+    status: 'success',
     sender: userId,
     wallet: wallet._id
   });

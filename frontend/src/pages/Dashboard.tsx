@@ -58,11 +58,10 @@ const Dashboard = () => {
   const recentTransactions = transactions?.slice(0, 5);
 
   const transfer = (t: any) => {
-    let transferValue:boolean
     if(t.type === TransactionType.TRANSFER && t.senderName == user?.name ){
-      return transferValue = true
+      return true
     }else{
-      return transferValue = false
+      return false
     }
   }
   

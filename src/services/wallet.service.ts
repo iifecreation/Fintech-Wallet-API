@@ -115,33 +115,23 @@ export const withdrawFunds = async (
 
   // Optional: Create a recipient
   const recipient = await createTransferRecipient({
-    account_number: accountNumber,
+    account_number: resolved.account_number,
     bank_code: bank,
     name: resolved.account_name,
-  });
-
-  // Initiate transfer
-  const transfer = await initiateTransfer({
-    amount,
-    recipient_code: recipient.recipient_code,
-    reason: "Wallet Withdrawal",
   });
 
   wallet.balance -= totalAmount;
   await wallet.save();
 
-  const reference = uuidv4();
   await Transaction.create({
-    reference,
-    type: 'WITHDRAW',
-    amount,
-    status: 'PENDING', // You can update to SUCCESS via webhook
+    reference: recipient.recipient_code,
+    type: 'withdraw',
+    amount: totalAmount,
+    status: 'pending', // You can update to SUCCESS via webhook
     sender: userId,
-    metadata: {
-      paystackTransfer: transfer,
-    },
+    wallet: wallet._id
   });
 
-  return { message: 'Withdrawal initiated', reference };
+  return { message: 'Withdrawal initiated', recipient };
 };
 

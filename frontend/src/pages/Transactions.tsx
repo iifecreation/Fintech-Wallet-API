@@ -235,7 +235,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer to ${transaction?.recipientEmail}`
+                                  ? `Transfer ${transaction?.sender == "" ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

@@ -63,19 +63,11 @@ export const initiateFunding = async (userId: mongoose.Types.ObjectId, amount: n
   return { paymentLink };
 };
 
-export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipientEmail: string, amount: number, description: string) => {
+export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipientEmail: string, amount: number, description: string, senderName: string) => {
   const senderWallet = await Wallet.findOne({ user: senderId });
   const receiverUser = await User.findOne({ email: recipientEmail });
   const receiverWallet = receiverUser && await Wallet.findOne({ user: receiverUser._id });
-  console.log(senderId, amount, description, recipientEmail);
-  console.log("----------------------");
-  console.log(senderWallet)
-  console.log("----------------------");
-  console.log(receiverUser)
-  console.log("----------------------");
-  console.log(receiverWallet);
-  
-  
+
   if (!senderWallet || !receiverUser || !receiverWallet) throw new Error('User or wallet not found');
   if (senderWallet.balance < amount) throw new Error('Insufficient balance');
 
@@ -85,15 +77,21 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipient
   await receiverWallet.save();
 
   const reference = uuidv4();
-  await Transaction.create({
+  let way = await Transaction.create({
     reference,
     type: 'transfer',
     amount,
     status: 'success',
     sender: senderId,
     receiver: receiverUser._id,
-    description
+    description,
+    wallet: senderWallet._id,
+    recipientName: receiverUser.name,
+    senderName
   });
+
+  console.log(way);
+  
   return { message: 'Transfer successful', reference };
 };
 

@@ -4,7 +4,7 @@ import { ApiResponse } from '../types/index';
 
 // Create Axios instance with default config
 const api = axios.create({
-  baseURL: 'https://become-reviewer-wifi-eligibility.trycloudflare.com/api/v1',
+  baseURL: 'https://fintech-wallet-api-iu22.onrender.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },

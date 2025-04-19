@@ -100,25 +100,6 @@ const Transactions = () => {
   };
   const user: any = authState.user;
 
-  // const getTransactionIcon = (type: TransactionType) => {
-  //   switch (type) {
-  //     case TransactionType.FUNDING:
-  //       return <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-  //         <Plus className="h-3 w-3 mr-1" />Funding
-  //       </Badge>;
-  //     case TransactionType.TRANSFER:
-  //       return <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-  //         <SendHorizontal className="h-3 w-3 mr-1" />Transfer
-  //       </Badge>;
-  //     case TransactionType.WITHDRAWAL:
-  //       return <Badge variant="outline" className="bg-danger/10 text-danger border-danger/20">
-  //         <ArrowDownToLine className="h-3 w-3 mr-1" />Withdrawal
-  //       </Badge>;
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   const getAmountLabel = (transaction: Transaction) => {
     if (transaction.type === TransactionType.FUNDING) {
       return <span className="text-success">+{formatCurrency(transaction.amount)}</span>;

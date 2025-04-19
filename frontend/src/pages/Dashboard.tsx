@@ -23,6 +23,7 @@ import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { Skeleton } from '../components/ui/skeleton';
 import { Transaction, TransactionStatus, TransactionType } from '../types/index';
+import { useAuth } from '../contexts/AuthContext';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -37,6 +38,8 @@ const Dashboard = () => {
   const { wallet, transactions, isLoading, fetchWalletBalance, fetchTransactions } = useWallet();
   const [showBalance, setShowBalance] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const { authState } = useAuth();
+  const user: any = authState.user;
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -53,14 +56,23 @@ const Dashboard = () => {
 
   // Calculate quick stats
   const recentTransactions = transactions?.slice(0, 5);
+
+  const transfer = (t: any) => {
+    let transferValue:boolean
+    if(t.type === TransactionType.TRANSFER && t.senderName == user?.name ){
+      return transferValue = true
+    }else{
+      return transferValue = false
+    }
+  }
   
   const totalIncoming = transactions
-    ?.filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL)
+    ?.filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL || transfer(t))
     ?.reduce((sum, t) => sum + t.amount, 0);
     
     
   const totalOutgoing = transactions
-    ?.filter(t => (t.type === TransactionType.TRANSFER || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
+    ?.filter(t => (transfer(t) || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
     ?.reduce((sum, t) => sum + t.amount, 0);
 
   const getTransactionIcon = (type: TransactionType) => {
@@ -255,7 +267,7 @@ const Dashboard = () => {
                             <div className="flex items-center gap-2">
                               <p className="font-medium line-clamp-1">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer to ${transaction.recipientEmail}`
+                                  ? `Transfer ${transaction?.sender == user?.name ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

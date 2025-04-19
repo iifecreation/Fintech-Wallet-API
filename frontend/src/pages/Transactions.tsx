@@ -29,6 +29,7 @@ import {
 } from '../components/ui/dropdown-menu';
 
 import { Transaction, TransactionStatus, TransactionType } from '../types/index';
+import { useAuth } from '../contexts/AuthContext';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -41,6 +42,7 @@ const formatCurrency = (amount: number) => {
 
 const Transactions = () => {
   const { transactions, transactionMeta, isLoading, fetchTransactions } = useWallet();
+  const { authState } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -96,6 +98,7 @@ const Transactions = () => {
     setStatusFilter('all');
     setDate(undefined);
   };
+  const user: any = authState.user;
 
   // const getTransactionIcon = (type: TransactionType) => {
   //   switch (type) {
@@ -235,7 +238,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer ${transaction?.sender == "" ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
+                                  ? `Transfer ${transaction?.sender == user?.name ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

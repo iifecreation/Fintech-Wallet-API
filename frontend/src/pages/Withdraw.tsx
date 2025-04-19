@@ -70,7 +70,7 @@ const Withdraw = () => {
   const watchAmount = watch('amount');
   const watchBankCode = watch('bankCode');
   
-  const totalWithFee = (watchAmount || 0) + WITHDRAWAL_FEE;
+  const totalWithFee = (Number(watchAmount) || 0) + WITHDRAWAL_FEE;
   const hasInsufficientFunds = wallet ? totalWithFee > wallet.balance : false;
   const selectedBank = BANKS.find(bank => bank.code === watchBankCode);
 

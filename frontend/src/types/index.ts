@@ -88,6 +88,7 @@ export interface User {
   export interface TransferFundsData {
     amount: number;
     recipientEmail: string;
+    description?: string;
   }
   
   export interface WithdrawFundsData {

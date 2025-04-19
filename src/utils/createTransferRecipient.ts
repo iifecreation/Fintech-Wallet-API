@@ -31,5 +31,7 @@ export const createTransferRecipient = async ({
     }
   );
 
+  console.log("create Transfer Recipient", response);
+  
   return response.data.data; // includes recipient_code
 };

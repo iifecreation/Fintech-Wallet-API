@@ -51,7 +51,7 @@ const Transfer = () => {
   const onSubmit = async (data: TransferFormValues) => {
     if (hasInsufficientFunds) return;
     
-    const result = await transferFunds(data.amount, data.recipientEmail);
+    const result = await transferFunds(data.amount, data.recipientEmail, data.description);
     
     if (result) {
       setSuccess(true);
@@ -193,6 +193,7 @@ const Transfer = () => {
                       <Label htmlFor="description">Description (Optional)</Label>
                       <Input
                         id="description"
+                        type='text'
                         placeholder="What's this transfer for?"
                         {...register('description')}
                       />

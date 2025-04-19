@@ -67,6 +67,15 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipient
   const senderWallet = await Wallet.findOne({ user: senderId });
   const receiverUser = await User.findOne({ email: recipientEmail });
   const receiverWallet = receiverUser && await Wallet.findOne({ user: receiverUser._id });
+  console.log(senderId, amount, description, recipientEmail);
+  console.log("----------------------");
+  console.log(senderWallet)
+  console.log("----------------------");
+  console.log(receiverUser)
+  console.log("----------------------");
+  console.log(receiverWallet);
+  
+  
   if (!senderWallet || !receiverUser || !receiverWallet) throw new Error('User or wallet not found');
   if (senderWallet.balance < amount) throw new Error('Insufficient balance');
 

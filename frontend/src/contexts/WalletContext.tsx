@@ -14,7 +14,7 @@ interface WalletContextProps {
   fetchWalletBalance: () => Promise<void>;
   fetchTransactions: () => Promise<void>;
   fundWallet: (amount: number) => Promise<any | undefined>;
-  transferFunds: (amount: number, recipientEmail: string) => Promise<boolean>;
+  transferFunds: (amount: number, recipientEmail: string, description: string |  undefined) => Promise<boolean>;
   withdrawFunds: (amount: number, accountNumber: string, bankCode: string) => Promise<boolean>;
 }
 
@@ -118,7 +118,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const transferFunds = async (amount: number, recipientEmail: string, description?: string) => {
+  const transferFunds = async (amount: number, recipientEmail: string, description?: string| undefined) => {
     try {
       setIsLoading(true);
       setError(null);

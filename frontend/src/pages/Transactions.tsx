@@ -218,12 +218,15 @@ const Transactions = () => {
                           <td className="py-4 px-2">
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
-                                {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer ${transaction?.sender == user?._id ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
-                                  : transaction.type === TransactionType.WITHDRAWAL
-                                    ? 'Withdrawal'
-                                    : 'Wallet Funding'
-                                }
+                                {transaction.type === TransactionType.TRANSFER ? (
+                                  transaction?.sender === user?._id
+                                    ? `Transfer to ${transaction?.recipientName}`
+                                    : `Transfer from ${transaction?.senderName}`
+                                ) : transaction.type === TransactionType.WITHDRAWAL ? (
+                                  'Withdrawal'
+                                ) : (
+                                  'Wallet Funding'
+                                )}
                               </p>
                               <p className="text-xs text-muted-foreground">
                                 Ref: {transaction.reference.slice(-8)}

@@ -100,7 +100,9 @@ const Transactions = () => {
   };
   const user: any = authState.user;
 
-  console.log(user?.user?._id);
+  console.log("main", user);
+  console.log("user", user?.user);
+  console.log("id", user?.user?._id);
   
 
   const getAmountLabel = (transaction: Transaction) => {

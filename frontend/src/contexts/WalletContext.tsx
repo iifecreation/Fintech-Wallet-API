@@ -46,7 +46,6 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       
       const walletData:any = await walletService.getWalletBalance();
-      console.log(walletData);
       setWallet(walletData?.balance);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch wallet balance';
@@ -70,7 +69,6 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
       
       const response: any = await walletService.getTransactions();
-     console.log(response);
      
       setTransactions(response);
       setTransactionMeta(response);
@@ -128,8 +126,7 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
         throw new Error('Insufficient balance for this transfer');
       }
       
-      let data = await walletService.transferFunds({ amount, recipientEmail, description });
-      console.log(data);
+      await walletService.transferFunds({ amount, recipientEmail, description });
       
       // Refresh wallet balance after successful transfer
       await fetchWalletBalance();

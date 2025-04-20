@@ -100,7 +100,7 @@ const Transactions = () => {
   };
   const user: any = authState.user;
 
-  console.log(user?.balance?.user?._id);
+  console.log(user?.user?._id);
   
 
   const getAmountLabel = (transaction: Transaction) => {
@@ -222,7 +222,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER ? (
-                                  transaction?.sender === user?.balance?.user?._id
+                                  transaction?.sender === user?.user?._id
                                     ? `Transfer to ${transaction?.recipientName}`
                                     : `Transfer from ${transaction?.senderName}`
                                 ) : transaction.type === TransactionType.WITHDRAWAL ? (

@@ -77,6 +77,7 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipient
   senderWallet.balance -= amount;
   let success = await senderWallet.save().then(() => {
     console.log('Sender wallet updated');
+    
   }).catch(console.error);
 
   if(!success) throw new Error('Unable to transfer funds. Try again later');

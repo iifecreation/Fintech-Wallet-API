@@ -70,15 +70,14 @@ export const transferFunds = async (senderId: mongoose.Types.ObjectId, recipient
 
   if (!senderWallet || !receiverUser || !receiverWallet) throw new Error('User or wallet not found');
   if (senderWallet.balance < amount) throw new Error('Insufficient balance');
-  console.log(senderWallet, receiverWallet);
-  
-  if(senderWallet._id == receiverWallet._id) throw new Error('Cant transfer to this user');
+
+  if(senderWallet.walletId == receiverWallet.walletId) throw new Error('Cant transfer to this user');
 
 
   senderWallet.balance -= amount;
-  receiverWallet.balance += amount;
-
   await senderWallet.save();
+
+  receiverWallet.balance += amount;
   await receiverWallet.save();
 
   const reference = uuidv4();

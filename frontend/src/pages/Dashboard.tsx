@@ -258,7 +258,7 @@ const Dashboard = () => {
                             <div className="flex items-center gap-2">
                               <p className="font-medium line-clamp-1">
                                 {transaction.type === TransactionType.TRANSFER ? (
-                                  transaction?.sender === user?._id
+                                  transaction?.sender === user?.balance?.user?._id
                                     ? `Transfer to ${transaction?.recipientName}`
                                     : `Transfer from ${transaction?.senderName}`
                                 ) : transaction.type === TransactionType.WITHDRAWAL ? (

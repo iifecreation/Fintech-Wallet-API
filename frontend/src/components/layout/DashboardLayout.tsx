@@ -61,7 +61,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   }
 
   const user: any = authState.user;
-  // const initials = user ? `${user?.name}` : 'UR';
   
   const navigationItems = [
     { 

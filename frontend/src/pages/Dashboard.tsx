@@ -56,22 +56,14 @@ const Dashboard = () => {
 
   // Calculate quick stats
   const recentTransactions = transactions?.slice(0, 5);
-
-  const transfer = (t: any) => {
-    if(t.type === TransactionType.TRANSFER && t.senderName == user?.name ){
-      return true
-    }else{
-      return false
-    }
-  }
   
   const totalIncoming = transactions
-    ?.filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL || transfer(t))
+    ?.filter(t => t.type === TransactionType.FUNDING && t.status === TransactionStatus.SUCCESSFUL || (t.type === TransactionType.TRANSFER && t.senderName == user?.name ))
     ?.reduce((sum, t) => sum + t.amount, 0);
     
     
   const totalOutgoing = transactions
-    ?.filter(t => (transfer(t) || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
+    ?.filter(t => ((t.type === TransactionType.TRANSFER && t.senderName == user?.name ) || t.type === TransactionType.WITHDRAWAL) && t.status === TransactionStatus.SUCCESSFUL)
     ?.reduce((sum, t) => sum + t.amount, 0);
 
   const getTransactionIcon = (type: TransactionType) => {
@@ -266,7 +258,7 @@ const Dashboard = () => {
                             <div className="flex items-center gap-2">
                               <p className="font-medium line-clamp-1">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer ${transaction?.sender == user?.name ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
+                                  ? `Transfer ${transaction?.sender == user?._id ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

@@ -95,7 +95,7 @@ const Transactions = () => {
   const resetFilters = () => {
     setSearchTerm('');
     setTypeFilter('all');
-    setStatusFilter('all');
+    setStatusFilter('all' );
     setDate(undefined);
   };
   const user: any = authState.user;
@@ -219,7 +219,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer ${transaction?.sender == user?.name ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
+                                  ? `Transfer ${transaction?.sender == user?._id ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
                                   : transaction.type === TransactionType.WITHDRAWAL
                                     ? 'Withdrawal'
                                     : 'Wallet Funding'

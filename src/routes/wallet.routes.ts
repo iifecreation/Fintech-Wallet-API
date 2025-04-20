@@ -8,7 +8,7 @@ import {
   withdrawFunds,
   getWalletDetails,
 } from '../controllers/wallet.controller';
-import { walletFundingLimiter } from 'middlewares/rateLimit.middleware';
+import { walletFundingLimiter } from '../middlewares/rateLimit.middleware';
 
 const router = express.Router();
 

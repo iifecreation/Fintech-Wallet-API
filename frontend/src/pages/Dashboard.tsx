@@ -257,12 +257,15 @@ const Dashboard = () => {
                           <div>
                             <div className="flex items-center gap-2">
                               <p className="font-medium line-clamp-1">
-                                {transaction.type === TransactionType.TRANSFER 
-                                  ? `Transfer ${transaction?.sender == user?._id ? "to " + transaction?.recipientName : "from " + transaction?.senderName}`
-                                  : transaction.type === TransactionType.WITHDRAWAL
-                                    ? 'Withdrawal'
-                                    : 'Wallet Funding'
-                                }
+                                {transaction.type === TransactionType.TRANSFER ? (
+                                  transaction?.sender === user?._id
+                                    ? `Transfer to ${transaction?.recipientName}`
+                                    : `Transfer from ${transaction?.senderName}`
+                                ) : transaction.type === TransactionType.WITHDRAWAL ? (
+                                  'Withdrawal'
+                                ) : (
+                                  'Wallet Funding'
+                                )}
                               </p>
                               {getTransactionIcon(transaction.type)}
                             </div>

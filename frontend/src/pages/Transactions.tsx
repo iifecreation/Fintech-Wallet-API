@@ -100,6 +100,9 @@ const Transactions = () => {
   };
   const user: any = authState.user;
 
+  console.log(user);
+  
+
   const getAmountLabel = (transaction: Transaction) => {
     if (transaction.type === TransactionType.FUNDING) {
       return <span className="text-success">+{formatCurrency(transaction.amount)}</span>;

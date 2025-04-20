@@ -13,5 +13,6 @@ export const resolveBankAccount = async (accountNumber: string, bankCode: string
       }
     );
     return response.data.data;
+    
   };
   

@@ -6,9 +6,9 @@ dotenv.config();
 const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY!;
 
 export const createTransferRecipient = async ({
-  name,
   account_number,
   bank_code,
+  name
 }: {
   name: string;
   account_number: string;
@@ -30,6 +30,6 @@ export const createTransferRecipient = async ({
       },
     }
   );
-
+  
   return response.data.data; // includes recipient_code
 };

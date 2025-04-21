@@ -100,11 +100,6 @@ const Transactions = () => {
   };
   const user: any = authState.user;
 
-  console.log("main", user);
-  console.log("user", user?.user);
-  console.log("id", user?.user?._id);
-  
-
   const getAmountLabel = (transaction: Transaction) => {
     if (transaction.type === TransactionType.FUNDING) {
       return <span className="text-success">+{formatCurrency(transaction.amount)}</span>;
@@ -224,7 +219,7 @@ const Transactions = () => {
                             <div>
                               <p className="font-medium truncate max-w-[180px]">
                                 {transaction.type === TransactionType.TRANSFER ? (
-                                  transaction?.sender === user?.user?._id
+                                  transaction?.sender === user?._id
                                     ? `Transfer to ${transaction?.recipientName}`
                                     : `Transfer from ${transaction?.senderName}`
                                 ) : transaction.type === TransactionType.WITHDRAWAL ? (

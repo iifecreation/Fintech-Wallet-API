@@ -57,6 +57,8 @@ export interface User {
     wallet?: any;
     createdAt: string;
     metadata?: Record<string, any>;
+    recipientName?: string;
+    senderName?: string
   }
   
   export interface TransactionResponse {
